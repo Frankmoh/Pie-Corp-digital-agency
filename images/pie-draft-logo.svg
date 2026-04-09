@@ -1,0 +1,39 @@
+<svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="80" y1="80" x2="560" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#091429"/>
+      <stop offset="1" stop-color="#1A0F3D"/>
+    </linearGradient>
+    <linearGradient id="frameGrad" x1="120" y1="120" x2="520" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="180" y1="260" x2="460" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E0F2FE"/>
+      <stop offset="1" stop-color="#C4B5FD"/>
+    </linearGradient>
+    <filter id="outerGlow" x="0" y="0" width="640" height="640" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="80" y="80" width="480" height="480" rx="90" fill="url(#bgGrad)"/>
+  <rect x="98" y="98" width="444" height="444" rx="72" stroke="url(#frameGrad)" stroke-width="12" opacity="0.9"/>
+
+  <circle cx="138" cy="138" r="10" fill="#67E8F9"/>
+  <circle cx="502" cy="138" r="10" fill="#67E8F9"/>
+  <circle cx="138" cy="502" r="10" fill="#67E8F9"/>
+  <circle cx="502" cy="502" r="10" fill="#67E8F9"/>
+
+  <path d="M160 320H480" stroke="#22D3EE" stroke-opacity="0.26" stroke-width="3"/>
+  <path d="M320 160V480" stroke="#A78BFA" stroke-opacity="0.22" stroke-width="3"/>
+
+  <g filter="url(#outerGlow)">
+    <text x="320" y="345" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="168" font-weight="900" letter-spacing="6" fill="url(#textGrad)">PIE</text>
+  </g>
+
+</svg>
