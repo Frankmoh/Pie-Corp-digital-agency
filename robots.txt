@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://charming-biscochitos-69bcf0.netlify.app/sitemap.xml
