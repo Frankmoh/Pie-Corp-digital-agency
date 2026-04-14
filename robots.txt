@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /netlify.toml
 
-Sitemap: https://piecorp.co.ke/sitemap.xml
+Sitemap: https://piecorp.netlify.app/sitemap.xml

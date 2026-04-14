@@ -29,6 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     serviceCards.forEach(card => {
         observer.observe(card);
     });
+
+    document.querySelectorAll('.pricing-card').forEach(card => {
+        observer.observe(card);
+    });
     
     if (aboutContent) {
         observer.observe(aboutContent);
@@ -170,26 +174,38 @@ if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Get form values
         const formData = new FormData(this);
-        
-        // Show success message
         const submitBtn = this.querySelector('.submit-btn');
         const originalText = submitBtn.textContent;
-        submitBtn.textContent = '✓ Message Sent!';
-        submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-        
-        // Reset form
-        this.reset();
-        
-        // Reset button after 3 seconds
-        setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.style.background = 'linear-gradient(135deg, var(--primary-color), #7dd3fc)';
-        }, 3000);
-        
-        // Here you would typically send the form data to a server
-        console.log('Form submitted:', Object.fromEntries(formData));
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(response => {
+            if (response.ok) {
+                submitBtn.textContent = '✓ Message Sent!';
+                submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                this.reset();
+            } else {
+                submitBtn.textContent = '✗ Failed to send';
+                submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            }
+        })
+        .catch(() => {
+            submitBtn.textContent = '✗ Network error';
+            submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.style.background = 'linear-gradient(135deg, var(--primary-color), #7dd3fc)';
+            }, 3000);
+        });
     });
 }
 
@@ -381,9 +397,9 @@ function playDigitalBootSound() {
         limiter.connect(ctx.destination);
 
         // Galaxy-unfolding envelope: bloom then soft tail
-        master.gain.exponentialRampToValueAtTime(0.18 * BOOT_SOUND_VOLUME, now + 0.6);
-        master.gain.exponentialRampToValueAtTime(0.62 * BOOT_SOUND_VOLUME, now + 2.4);
-        master.gain.exponentialRampToValueAtTime(0.0001, now + 6.0);
+        master.gain.exponentialRampToValueAtTime(0.18 * BOOT_SOUND_VOLUME, now + 0.3);
+        master.gain.exponentialRampToValueAtTime(0.62 * BOOT_SOUND_VOLUME, now + 1.2);
+        master.gain.exponentialRampToValueAtTime(0.0001, now + 3.0);
 
         // Deep atmospheric bed
         const pad1 = ctx.createOscillator();
@@ -497,12 +513,12 @@ function playDigitalBootSound() {
         whoosh.start(now);
         lfo.start(now);
 
-        pad1.stop(now + 6.1);
-        pad2.stop(now + 6.1);
-        shimmer.stop(now + 6.0);
-        noise.stop(now + 6.0);
+        pad1.stop(now + 3.1);
+        pad2.stop(now + 3.1);
+        shimmer.stop(now + 3.0);
+        noise.stop(now + 3.0);
         whoosh.stop(now + 1.25);
-        lfo.stop(now + 6.0);
+        lfo.stop(now + 3.0);
 
         bootSoundPlayed = true;
     };
@@ -536,7 +552,7 @@ window.addEventListener('load', () => {
         if (loadingScreen) {
             loadingScreen.style.display = 'none';
         }
-    }, 6000);
+    }, 3000);
 });
 
 // ============================================
@@ -544,7 +560,7 @@ window.addEventListener('load', () => {
 // ============================================
 
 const revealOnScroll = () => {
-    const cards = document.querySelectorAll('.service-card');
+    const cards = document.querySelectorAll('.service-card, .pricing-card');
     
     cards.forEach(card => {
         const cardTop = card.getBoundingClientRect().top;
@@ -560,7 +576,6 @@ const revealOnScroll = () => {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
-console.log('✓ PIE CORP DIGITAL AGENCY - Website loaded successfully!');
 
 // ============================================
 // CHATBOT - DONA
@@ -591,7 +606,7 @@ const donaKnowledge = {
     whatsapp: '💬 WhatsApp support is available at +254 707 427 230.',
     instagram: '📸 Instagram: @i.tsfrankie_4real.',
     facebook: '👤 Facebook: Frank Mogonchi KE.',
-    price: '💰 Pricing depends on scope and timeline. Typical starts: websites from KES 15,000, web apps from KES 50,000+, mobile apps from KES 80,000+, and cybersecurity audits from KES 30,000. Share your requirements and we will provide a clear quote.',
+    price: '💰 We offer 3 packages:\n\n🟢 Basic (from KES 15,000): Landing page, responsive design, basic SEO, contact form, 1 month support.\n\n🔵 Standard (from KES 50,000): Multi-page site or simple app, CMS, full SEO + analytics, basic security audit, 3 months support.\n\n🟣 Premium (from KES 100,000+): Full web/mobile app, custom UI/UX, cybersecurity audit + 24/7 monitoring, hardware setup, 6 months priority support, dedicated project manager.\n\nAll prices depend on scope and timeline. Share your requirements for a clear quote.',
     team: '👩‍💼 PIE CORP is a Kenya-based digital agency delivering web, mobile, security, and hardware solutions for startups and established businesses.',
     stats: '📊 Current stats: 75+ projects completed, 100+ happy clients, and 5+ years experience.',
     location: '📍 PIE CORP is based in Kenya and serves East Africa and remote international clients.',
